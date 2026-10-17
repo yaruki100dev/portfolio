@@ -2,33 +2,44 @@
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../data/site";
+import { getLocalizedPath, getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
 import "../styles/global.css";
 
 interface Props {
+  locale: Locale;
+  route?: string;
   title?: string;
   description?: string;
-  path?: string;
 }
 
-const {
-  title = `${siteConfig.name} — ${siteConfig.role}`,
-  description = siteConfig.description,
-  path = "/",
-} = Astro.props;
-const canonical = siteConfig.url ? new URL(path, siteConfig.url).toString() : undefined;
+const { locale, route = "/" } = Astro.props;
+const t = getTranslations(locale);
+const title = Astro.props.title ?? t.meta.homeTitle;
+const description = Astro.props.description ?? t.meta.homeDescription;
+const localizedPath = getLocalizedPath(locale, route);
+const canonical = siteConfig.url ? new URL(localizedPath, siteConfig.url).toString() : undefined;
+const alternateEn = siteConfig.url
+  ? new URL(getLocalizedPath("en", route), siteConfig.url).toString()
+  : undefined;
+const alternateEs = siteConfig.url
+  ? new URL(getLocalizedPath("es", route), siteConfig.url).toString()
+  : undefined;
 const personSchema = {
   "@context": "https://schema.org",
   "@type": "Person",
   name: siteConfig.name,
-  jobTitle: siteConfig.role,
+  jobTitle: t.meta.jobTitle,
+  description,
+  inLanguage: locale,
   address: { "@type": "PostalAddress", addressLocality: "Alicante", addressCountry: "ES" },
   sameAs: siteConfig.social.map((item) => item.href),
-  ...(siteConfig.url ? { url: siteConfig.url } : {}),
+  ...(siteConfig.url ? { url: new URL(getLocalizedPath(locale), siteConfig.url).toString() } : {}),
 };
 ---
 
 <!doctype html>
-<html lang="es" data-theme="dark">
+<html lang={locale} data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
@@ -36,9 +47,13 @@ const personSchema = {
     <meta name="description" content={description} />
     <meta name="theme-color" content="#0d1117" />
     {canonical && <link rel="canonical" href={canonical} />}
+    {alternateEn && <link rel="alternate" hreflang="en" href={alternateEn} />}
+    {alternateEs && <link rel="alternate" hreflang="es" href={alternateEs} />}
+    {alternateEn && <link rel="alternate" hreflang="x-default" href={alternateEn} />}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta property="og:type" content="website" />
-    <meta property="og:locale" content="es_ES" />
+    <meta property="og:locale" content={locale === "en" ? "en_US" : "es_ES"} />
+    <meta property="og:locale:alternate" content={locale === "en" ? "es_ES" : "en_US"} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     {canonical && <meta property="og:url" content={canonical} />}
@@ -57,12 +72,12 @@ const personSchema = {
     <script type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
   <body>
-    <a class="skip-link" href="#contenido">Saltar al contenido</a>
-    <Header />
-    <main id="contenido">
+    <a class="skip-link" href="#content">{t.common.skipToContent}</a>
+    <Header locale={locale} route={route} />
+    <main id="content">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
     <script>
       if (!("IntersectionObserver" in window) || matchMedia("(prefers-reduced-motion: reduce)").matches) {
         document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));

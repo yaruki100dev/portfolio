@@ -1,16 +1,25 @@
 ---
 import Icon from "./Icon.astro";
 import { siteConfig } from "../data/site";
+import { formatMessage, getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
 const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
   <div class="shell footer-inner">
     <p>© {year} {siteConfig.name}</p>
-    <p class="footer-build">Diseñado con intención. Construido con Astro.</p>
+    <p class="footer-build">{t.footer.build}</p>
     <div class="footer-socials">
       {siteConfig.social.map((social) => (
-        <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={`${social.label} de ${siteConfig.name}`}>
+        <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={formatMessage(t.common.socialProfile, { network: social.label })}>
           <Icon name={social.icon} size={18} /><span>{social.label}</span>
         </a>
       ))}

@@ -1,16 +1,23 @@
 ---
 import SectionHeading from "./SectionHeading.astro";
-import { education } from "../data/site";
+import { getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getTranslations(Astro.props.locale);
 ---
 
-<section id="formacion" class="section shell" aria-labelledby="education-title">
-  <SectionHeading index="05" title="Formación" />
+<section id="education" class="section shell" aria-labelledby="education-title">
+  <SectionHeading index="05" title={t.education.section} />
   <div class="education-card reveal">
     <div class="education-mark" aria-hidden="true">&lt;/&gt;</div>
     <div>
-      <p>Formación reglada</p>
-      <h2 id="education-title">{education[0].qualification}</h2>
-      <span>{education[0].field}</span>
+      <p>{t.education.type}</p>
+      <h2 id="education-title">{t.education.qualification}</h2>
+      <span>{t.education.field}</span>
     </div>
   </div>
 </section>

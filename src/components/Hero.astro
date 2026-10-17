@@ -1,25 +1,33 @@
 ---
 import Icon from "./Icon.astro";
 import { siteConfig } from "../data/site";
+import { getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getTranslations(Astro.props.locale);
 ---
 
 <section class="hero shell" aria-labelledby="hero-title">
   <div class="hero-copy">
-    <p class="eyebrow reveal">Disponible para construir sistemas que perduran</p>
+    <p class="eyebrow reveal">{t.hero.eyebrow}</p>
     <h1 id="hero-title" class="reveal">
-      <span>Backend</span>
-      <span class="outline-text">Developer<span class="accent-dot">.</span></span>
+      <span>{t.hero.titleTop}</span>
+      <span class="outline-text">{t.hero.titleBottom}<span class="accent-dot">.</span></span>
     </h1>
     <p class="hero-intro reveal">
-      Soy <strong>{siteConfig.name}</strong>. Desarrollo sistemas backend con Python, conecto servicios y automatizo procesos desde 2019.
+      {t.hero.introBefore} <strong>{siteConfig.name}</strong>. {t.hero.introAfter}
     </p>
     <div class="hero-meta reveal">
-      <span><Icon name="location" size={16} />{siteConfig.location}</span>
-      <span class="availability"><i></i>Abierto a oportunidades</span>
+      <span><Icon name="location" size={16} />{t.hero.location}</span>
+      <span class="availability"><i></i>{t.hero.availability}</span>
     </div>
     <div class="hero-actions reveal">
-      <a class="button button--primary" href="#proyectos">Ver proyectos <Icon name="arrow" size={18} /></a>
-      <a class="button button--secondary" href="#contacto">Contactar</a>
+      <a class="button button--primary" href="#projects">{t.hero.viewProjects} <Icon name="arrow" size={18} /></a>
+      <a class="button button--secondary" href="#contact">{t.hero.contact}</a>
     </div>
     <div class="hero-socials reveal">
       {siteConfig.social.map((social) => (
@@ -30,14 +38,14 @@ import { siteConfig } from "../data/site";
     </div>
   </div>
 
-  <div class="system-map reveal" aria-label="Diagrama abstracto de una arquitectura backend">
+  <div class="system-map reveal" aria-label={t.hero.mapLabel}>
     <div class="system-map__topline">
       <span>system.map</span>
       <span>v1.0</span>
     </div>
     <svg viewBox="0 0 560 520" role="img" aria-labelledby="map-title map-description">
-      <title id="map-title">Arquitectura de servicios</title>
-      <desc id="map-description">Nodos de API, núcleo, datos y procesos conectados entre sí.</desc>
+      <title id="map-title">{t.hero.mapTitle}</title>
+      <desc id="map-description">{t.hero.mapDescription}</desc>
       <defs>
         <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
           <path d="M 32 0 L 0 0 0 32" fill="none" class="map-grid" stroke-width="1" />
@@ -56,26 +64,26 @@ import { siteConfig } from "../data/site";
       </g>
       <g class="map-node map-node--small">
         <rect x="65" y="75" width="120" height="60" rx="8" />
-        <text x="85" y="101">01 / API</text><text x="85" y="119">REQUESTS</text>
+        <text x="85" y="101">01 / API</text><text x="85" y="119">{t.hero.map.requests}</text>
       </g>
       <g class="map-node map-node--small">
         <rect x="375" y="75" width="120" height="60" rx="8" />
-        <text x="395" y="101">02 / JOBS</text><text x="395" y="119">ASYNC</text>
+        <text x="395" y="101">02 / {t.hero.map.jobs}</text><text x="395" y="119">{t.hero.map.async}</text>
       </g>
       <g class="map-node map-node--core">
         <rect x="220" y="205" width="120" height="90" rx="12" />
         <circle cx="280" cy="235" r="8" />
-        <text x="280" y="267" text-anchor="middle">CORE</text>
+        <text x="280" y="267" text-anchor="middle">{t.hero.map.core}</text>
       </g>
       <g class="map-node map-node--small">
         <rect x="65" y="355" width="120" height="60" rx="8" />
-        <text x="85" y="381">03 / DATA</text><text x="85" y="399">PERSIST</text>
+        <text x="85" y="381">03 / {t.hero.map.data}</text><text x="85" y="399">{t.hero.map.persist}</text>
       </g>
       <g class="map-node map-node--small">
         <rect x="375" y="355" width="120" height="60" rx="8" />
-        <text x="395" y="381">04 / SYNC</text><text x="395" y="399">AUTOMATE</text>
+        <text x="395" y="381">04 / {t.hero.map.sync}</text><text x="395" y="399">{t.hero.map.automate}</text>
       </g>
-      <g class="map-status"><circle cx="77" cy="466" r="4" /><text x="91" y="470">ALL SYSTEMS OPERATIONAL</text></g>
+      <g class="map-status"><circle cx="77" cy="466" r="4" /><text x="91" y="470">{t.hero.map.operational}</text></g>
     </svg>
   </div>
 </section>

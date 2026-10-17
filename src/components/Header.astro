@@ -1,39 +1,90 @@
 ---
 import Icon from "./Icon.astro";
-import { navigation, siteConfig } from "../data/site";
+import { navigationDefinitions, siteConfig } from "../data/site";
+import { getLocalizedPath, getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+  route: string;
+}
+
+const { locale, route } = Astro.props;
+const t = getTranslations(locale);
+const homePath = getLocalizedPath(locale);
+const languageLinks = [
+  { locale: "en" as const, label: "EN", name: "English", href: getLocalizedPath("en", route) },
+  { locale: "es" as const, label: "ES", name: "Español", href: getLocalizedPath("es", route) },
+];
 ---
 
 <header class="site-header" data-header>
   <div class="shell header-inner">
-    <a class="monogram" href="/" aria-label={`${siteConfig.name}, inicio`}>
+    <a class="monogram" href={homePath} aria-label={t.common.homeLabel}>
       <span>{siteConfig.initials}</span><i aria-hidden="true"></i>
     </a>
 
-    <nav class="desktop-nav" aria-label="Navegación principal">
-      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    <nav class="desktop-nav" aria-label={t.common.primaryNavigation}>
+      {navigationDefinitions.map((item) => (
+        <a href={`${homePath}#${item.section}`}>{t.navigation[item.key]}</a>
+      ))}
     </nav>
 
     <div class="header-actions">
-      <a class="contact-link" href="/#contacto">Contacto <Icon name="arrow" size={16} /></a>
-      <button class="icon-button theme-toggle" type="button" aria-label="Cambiar a tema claro" aria-pressed="true" data-theme-toggle>
+      <a class="contact-link" href={`${homePath}#contact`}>{t.common.contact} <Icon name="arrow" size={16} /></a>
+      <nav class="language-switcher" aria-label={t.common.languageNavigation}>
+        {languageLinks.map((item, index) => (
+          <>
+            {index > 0 && <span aria-hidden="true">/</span>}
+            <a
+              href={item.href}
+              lang={item.locale}
+              hreflang={item.locale}
+              aria-label={item.name}
+              aria-current={locale === item.locale ? "page" : undefined}
+              data-language-link
+            >
+              {item.label}
+            </a>
+          </>
+        ))}
+      </nav>
+      <button
+        class="icon-button theme-toggle"
+        type="button"
+        aria-label={t.common.lightTheme}
+        aria-pressed="true"
+        data-theme-toggle
+        data-light-label={t.common.lightTheme}
+        data-dark-label={t.common.darkTheme}
+      >
         <span class="theme-icon theme-icon--moon"><Icon name="moon" size={18} /></span>
         <span class="theme-icon theme-icon--sun"><Icon name="sun" size={18} /></span>
       </button>
-      <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+      <button
+        class="icon-button menu-toggle"
+        type="button"
+        aria-label={t.common.openMenu}
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        data-menu-toggle
+        data-open-label={t.common.openMenu}
+        data-close-label={t.common.closeMenu}
+      >
         <span class="menu-icon menu-icon--open"><Icon name="menu" /></span>
         <span class="menu-icon menu-icon--close"><Icon name="close" /></span>
       </button>
     </div>
   </div>
 
-  <nav id="mobile-menu" class="mobile-nav" aria-label="Navegación móvil" data-mobile-menu hidden>
+  <nav id="mobile-menu" class="mobile-nav" aria-label={t.common.mobileNavigation} data-mobile-menu hidden>
     <div class="shell">
-      {navigation.map((item, index) => (
-        <a href={item.href} data-mobile-link>
-          <span>0{index + 1}</span>{item.label}
+      {navigationDefinitions.map((item, index) => (
+        <a href={`${homePath}#${item.section}`} data-mobile-link>
+          <span>0{index + 1}</span>{t.navigation[item.key]}
         </a>
       ))}
-      <a href="/#contacto" data-mobile-link><span>05</span>Contacto</a>
+      <a href={`${homePath}#contact`} data-mobile-link><span>05</span>{t.common.contact}</a>
     </div>
   </nav>
 </header>
@@ -46,7 +97,7 @@ import { navigation, siteConfig } from "../data/site";
   const closeMenu = () => {
     if (!menuButton || !mobileMenu) return;
     menuButton.setAttribute("aria-expanded", "false");
-    menuButton.setAttribute("aria-label", "Abrir menú");
+    menuButton.setAttribute("aria-label", menuButton.dataset.openLabel ?? "Open menu");
     mobileMenu.hidden = true;
     document.body.classList.remove("menu-open");
   };
@@ -55,7 +106,10 @@ import { navigation, siteConfig } from "../data/site";
     if (!mobileMenu) return;
     const isOpen = menuButton.getAttribute("aria-expanded") === "true";
     menuButton.setAttribute("aria-expanded", String(!isOpen));
-    menuButton.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
+    menuButton.setAttribute(
+      "aria-label",
+      isOpen ? (menuButton.dataset.openLabel ?? "Open menu") : (menuButton.dataset.closeLabel ?? "Close menu"),
+    );
     mobileMenu.hidden = isOpen;
     document.body.classList.toggle("menu-open", !isOpen);
   });
@@ -64,12 +118,21 @@ import { navigation, siteConfig } from "../data/site";
   window.addEventListener("resize", () => { if (window.innerWidth >= 900) closeMenu(); });
   window.addEventListener("scroll", () => header?.classList.toggle("is-scrolled", window.scrollY > 12), { passive: true });
 
+  document.querySelectorAll<HTMLAnchorElement>("[data-language-link]").forEach((link) => {
+    link.addEventListener("click", () => {
+      if (window.location.hash) link.hash = window.location.hash;
+    });
+  });
+
   const themeButton = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
   const updateThemeButton = (theme: "dark" | "light") => {
     if (!themeButton) return;
     const dark = theme === "dark";
     themeButton.setAttribute("aria-pressed", String(dark));
-    themeButton.setAttribute("aria-label", dark ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+    themeButton.setAttribute(
+      "aria-label",
+      dark ? (themeButton.dataset.lightLabel ?? "Switch to light theme") : (themeButton.dataset.darkLabel ?? "Switch to dark theme"),
+    );
   };
   updateThemeButton(document.documentElement.dataset.theme === "light" ? "light" : "dark");
 

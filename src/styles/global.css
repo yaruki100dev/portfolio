@@ -272,6 +272,34 @@ button {
   gap: 0.55rem;
 }
 
+.language-switcher {
+  display: inline-flex;
+  min-height: 2.35rem;
+  align-items: center;
+  gap: 0.35rem;
+  padding-inline: 0.65rem;
+  color: var(--text-faint);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  font-family: var(--font-code);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+}
+
+.language-switcher a {
+  padding-block: 0.35rem;
+  transition: color 160ms ease;
+}
+
+.language-switcher a:hover {
+  color: var(--text);
+}
+
+.language-switcher a[aria-current="page"] {
+  color: var(--accent);
+  font-weight: 700;
+}
+
 .contact-link {
   display: inline-flex;
   align-items: center;
@@ -682,7 +710,7 @@ button {
 }
 
 /* Projects */
-#proyectos .display-title {
+#projects .display-title {
   margin-bottom: 3.5rem;
 }
 

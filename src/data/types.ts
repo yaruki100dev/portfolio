@@ -6,40 +6,42 @@ export interface SocialLink {
   icon: SocialKey;
 }
 
-export interface Experience {
-  period: string;
-  role: string;
-  sector: string;
-  summary: string;
-  focus: string[];
-}
+export type ProjectKey = "cabeencasa" | "hispanicStarLeague";
 
-export interface ProjectLink {
-  label: string;
-  href: string;
-  kind: "external" | "internal" | "repository";
-}
+export type TechnologyKey =
+  | "python"
+  | "sql"
+  | "apis"
+  | "serviceIntegration"
+  | "automation"
+  | "synchronization"
+  | "git"
+  | "linux"
+  | "astro"
+  | "cloudflarePages"
+  | "ssg"
+  | "technicalSeo"
+  | "responsiveDesign"
+  | "dataIntegration"
+  | "persistence"
+  | "scheduledProcesses"
+  | "domainRules";
 
-export interface Project {
+export interface ProjectDefinition {
+  key: ProjectKey;
   slug: string;
   name: string;
-  eyebrow: string;
-  status?: string;
-  description: string;
-  problem: string;
-  technologies: string[];
-  links: ProjectLink[];
   accent: "cyan" | "slate";
+  status?: "inDevelopment";
+  technologies: TechnologyKey[];
+  links: Array<
+    | { label: "visitWebsite"; kind: "external"; href: string }
+    | { label: "technicalCase"; kind: "internal"; path: string }
+  >;
 }
 
-export interface TechnologyGroup {
-  title: string;
+export interface TechnologyGroupDefinition {
+  key: "languages" | "backend" | "tools" | "web";
   index: string;
-  items: string[];
-  note: string;
-}
-
-export interface Education {
-  qualification: string;
-  field: string;
+  items: TechnologyKey[];
 }

@@ -1,24 +1,32 @@
 ---
 import SectionHeading from "./SectionHeading.astro";
-import { technologyGroups } from "../data/site";
+import { technologyGroupDefinitions } from "../data/site";
+import { getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getTranslations(Astro.props.locale);
 ---
 
 <section id="stack" class="section section--surface" aria-labelledby="stack-title">
   <div class="shell">
-    <SectionHeading index="04" title="Stack" description="Tecnologías y áreas de trabajo confirmadas, sin rankings artificiales." />
+    <SectionHeading index="04" title={t.stack.section} description={t.stack.description} />
     <div class="stack-layout">
       <div class="stack-intro reveal">
-        <h2 id="stack-title" class="display-title">Herramientas para<br /><span>resolver, no adornar.</span></h2>
-        <p>Elijo la tecnología por su encaje con el problema, su mantenibilidad y la claridad que aporta al sistema.</p>
+        <h2 id="stack-title" class="display-title">{t.stack.titleTop}<br /><span>{t.stack.titleBottom}</span></h2>
+        <p>{t.stack.intro}</p>
       </div>
       <div class="stack-groups">
-        {technologyGroups.map((group) => (
+        {technologyGroupDefinitions.map((group) => (
           <article class="stack-group reveal">
             <span class="stack-index">{group.index}</span>
             <div>
-              <h3>{group.title}</h3>
-              <p>{group.note}</p>
-              <ul>{group.items.map((item) => <li>{item}</li>)}</ul>
+              <h3>{t.stack.groups[group.key].title}</h3>
+              <p>{t.stack.groups[group.key].note}</p>
+              <ul>{group.items.map((item) => <li>{t.technologies[item]}</li>)}</ul>
             </div>
           </article>
         ))}

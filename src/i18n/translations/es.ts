@@ -1,0 +1,226 @@
+import type { Translation } from "../types";
+
+export const es = {
+  meta: {
+    homeTitle: "Ismael Díaz — Desarrollador backend",
+    jobTitle: "Desarrollador backend",
+    homeDescription:
+      "Portfolio de Ismael Díaz, Backend Developer especializado en Python, integración de servicios y automatización de procesos.",
+    caseTitle: "CabeEnCasa — Caso técnico | Ismael Díaz",
+    caseDescription:
+      "Decisiones técnicas y arquitectura de CabeEnCasa, un proyecto de contenido construido con Astro y generación estática.",
+  },
+  common: {
+    skipToContent: "Saltar al contenido",
+    homeLabel: "Ismael Díaz, inicio",
+    primaryNavigation: "Navegación principal",
+    mobileNavigation: "Navegación móvil",
+    languageNavigation: "Idioma",
+    contact: "Contacto",
+    openMenu: "Abrir menú",
+    closeMenu: "Cerrar menú",
+    lightTheme: "Cambiar a tema claro",
+    darkTheme: "Cambiar a tema oscuro",
+    socialProfile: "Perfil de {network} de Ismael Díaz",
+  },
+  navigation: {
+    about: "Perfil",
+    experience: "Experiencia",
+    projects: "Proyectos",
+    stack: "Stack",
+  },
+  hero: {
+    eyebrow: "Disponible para construir sistemas que perduran",
+    titleTop: "Backend",
+    titleBottom: "Developer",
+    introBefore: "Soy",
+    introAfter:
+      "Desarrollo sistemas backend con Python, conecto servicios y automatizo procesos desde 2019.",
+    location: "Alicante, España",
+    availability: "Abierto a oportunidades",
+    viewProjects: "Ver proyectos",
+    contact: "Contactar",
+    mapLabel: "Diagrama abstracto de una arquitectura backend",
+    mapTitle: "Arquitectura de servicios",
+    mapDescription: "Nodos de API, núcleo, datos y procesos conectados entre sí.",
+    map: {
+      requests: "SOLICITUDES",
+      jobs: "TAREAS",
+      async: "ASÍNCRONO",
+      core: "NÚCLEO",
+      data: "DATOS",
+      persist: "PERSISTE",
+      sync: "SINCRONIZA",
+      automate: "AUTOMATIZA",
+      operational: "SISTEMAS OPERATIVOS",
+    },
+  },
+  about: {
+    section: "Perfil",
+    titleTop: "Código que conecta.",
+    titleBottom: "Sistemas que responden.",
+    paragraphs: [
+      "Desde 2019 trabajo en desarrollo de software, con el foco puesto en Python y en la parte que normalmente no se ve: servicios que se comunican, datos que deben llegar a su destino y procesos que tienen que ejecutarse de forma fiable.",
+      "Me interesa construir soluciones fáciles de entender y mantener. Fuera del trabajo, desarrollo proyectos propios para explorar arquitectura web, producto y nuevas formas de resolver problemas reales.",
+    ],
+    facts: [
+      { label: "Base", value: "Alicante, España" },
+      { label: "Experiencia", value: "Desde 2019" },
+      { label: "Foco", value: "Backend · Python" },
+    ],
+  },
+  experience: {
+    section: "Experiencia",
+    description: "Una trayectoria centrada en la lógica, las integraciones y la fiabilidad operativa.",
+    accessibleTitle: "Experiencia profesional",
+    period: "2019 — presente",
+    role: "Desarrollo backend",
+    sector: "Sector de telecomunicaciones",
+    summary:
+      "Desarrollo y mantenimiento de sistemas orientados a conectar servicios, mover información de forma fiable y reducir trabajo manual.",
+    focus: [
+      "Integración de servicios y APIs",
+      "Automatización de procesos",
+      "Sincronización de información",
+      "Mantenimiento de sistemas backend",
+    ],
+  },
+  projects: {
+    section: "Proyectos",
+    description: "Proyectos propios donde la arquitectura técnica está al servicio de una necesidad concreta.",
+    titleTop: "Construir también es",
+    titleBottom: "tomar buenas decisiones.",
+    needLabel: "Necesidad",
+    technologiesLabel: "Tecnologías de {project}",
+    status: { inDevelopment: "En desarrollo" },
+    links: { visitWebsite: "Visitar web", technicalCase: "Caso técnico" },
+    items: {
+      cabeencasa: {
+        eyebrow: "Contenido · Web",
+        description:
+          "Una publicación digital sobre organización y aprovechamiento de espacios pequeños, construida para que el contenido sea rápido, accesible y fácil de mantener.",
+        problem:
+          "Convertir conocimiento práctico en una arquitectura de contenidos clara, descubrible y preparada para crecer.",
+      },
+      hispanicStarLeague: {
+        eyebrow: "Competición · Datos",
+        description:
+          "Plataforma en desarrollo para organizar una competición de StarCraft Remastered apoyada en la ladder oficial.",
+        problem:
+          "Coordinar registros, reglas de elegibilidad, clasificaciones y actualizaciones periódicas de datos en un único sistema.",
+      },
+    },
+  },
+  technologies: {
+    python: "Python",
+    sql: "SQL",
+    apis: "APIs",
+    serviceIntegration: "Integración de servicios",
+    automation: "Automatización",
+    synchronization: "Sincronización",
+    git: "Git",
+    linux: "Linux",
+    astro: "Astro",
+    cloudflarePages: "Cloudflare Pages",
+    ssg: "Generación estática",
+    technicalSeo: "SEO técnico",
+    responsiveDesign: "Diseño responsive",
+    dataIntegration: "Integración de datos",
+    persistence: "Persistencia",
+    scheduledProcesses: "Procesos periódicos",
+    domainRules: "Reglas de dominio",
+  },
+  stack: {
+    section: "Stack",
+    description: "Tecnologías y áreas de trabajo confirmadas, sin rankings artificiales.",
+    titleTop: "Herramientas para",
+    titleBottom: "resolver, no adornar.",
+    intro:
+      "Elijo la tecnología por su encaje con el problema, su mantenibilidad y la claridad que aporta al sistema.",
+    groups: {
+      languages: {
+        title: "Lenguajes",
+        note: "Herramientas principales para lógica de negocio y trabajo con datos.",
+      },
+      backend: {
+        title: "Backend e integración",
+        note: "Diseño de flujos fiables entre sistemas y reducción de tareas manuales.",
+      },
+      tools: {
+        title: "Herramientas y sistemas",
+        note: "Entornos y prácticas que sostienen un desarrollo mantenible.",
+      },
+      web: {
+        title: "Desarrollo web",
+        note: "Experiencia aplicada en proyectos propios orientados a contenido.",
+      },
+    },
+  },
+  education: {
+    section: "Formación",
+    type: "Formación reglada",
+    qualification: "Desarrollo de Aplicaciones Web",
+    field: "Formación Profesional · DAW",
+  },
+  contact: {
+    section: "Contacto",
+    titleTop: "¿Hablamos de",
+    titleBottom: "tu próximo sistema?",
+    copy:
+      "Estoy abierto a oportunidades como Backend Developer o Software Engineer, y a conversaciones sobre proyectos donde la fiabilidad importe.",
+    email: "Escribir un email",
+    downloadCv: "Descargar CV",
+  },
+  footer: {
+    build: "Diseñado con intención. Construido con Astro.",
+  },
+  caseStudy: {
+    back: "Volver a proyectos",
+    eyebrow: "Caso técnico · 01",
+    lead:
+      "Una arquitectura de contenidos estática, rápida y mantenible para una publicación sobre espacios pequeños.",
+    meta: {
+      typeLabel: "Tipo",
+      typeValue: "Proyecto personal",
+      statusLabel: "Estado",
+      statusValue: "En producción",
+      roleLabel: "Rol",
+      roleValue: "Diseño y desarrollo",
+    },
+    visit: "Visitar CabeEnCasa",
+    indexLabel: "En esta página",
+    index: { context: "Contexto", architecture: "Arquitectura", decisions: "Decisiones" },
+    context: {
+      kicker: "01 / Contexto",
+      title: "Contenido útil, sin fricción técnica.",
+      paragraphs: [
+        "CabeEnCasa nace como un proyecto de contenido sobre organización y aprovechamiento de espacios pequeños. La necesidad principal era crear una base clara para publicar, organizar y descubrir artículos sin trasladar complejidad innecesaria al visitante.",
+        "El repositorio es privado. Este caso describe únicamente decisiones y características públicas del proyecto, sin exponer código ni información sensible.",
+      ],
+    },
+    architecture: {
+      kicker: "02 / Arquitectura",
+      title: "Una entrega estática para una experiencia inmediata.",
+      flowLabel: "Flujo de publicación de CabeEnCasa",
+      flow: [
+        { title: "Contenido", detail: "Arquitectura editorial" },
+        { title: "Astro", detail: "Generación estática" },
+        { title: "Cloudflare", detail: "Despliegue automatizado" },
+      ],
+      copy:
+        "Astro permite generar las páginas durante el build y entregar HTML con muy poco JavaScript al navegador. El resultado encaja con un sitio editorial: navegación rápida, superficie reducida y una estructura que favorece el SEO técnico.",
+    },
+    decisions: {
+      kicker: "03 / Decisiones",
+      title: "Principios aplicados.",
+      items: [
+        { title: "Static-first", copy: "Generar el contenido de antemano reduce trabajo en cada visita y mantiene simple la entrega." },
+        { title: "Contenido estructurado", copy: "La arquitectura editorial permite crecer sin perder consistencia entre páginas y categorías." },
+        { title: "Responsive por defecto", copy: "La lectura y la navegación se adaptan a pantallas pequeñas sin tratar el móvil como un añadido." },
+        { title: "Despliegue repetible", copy: "Git y los despliegues automatizados conectan cada cambio con un proceso de publicación predecible." },
+      ],
+    },
+    nextProject: "Siguiente proyecto",
+    nextStatus: "En desarrollo",
+  },
+} as const satisfies Translation;

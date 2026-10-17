@@ -1,21 +1,29 @@
 ---
 import Icon from "./Icon.astro";
 import { siteConfig } from "../data/site";
+import { getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getTranslations(Astro.props.locale);
 ---
 
-<section id="contacto" class="contact-section" aria-labelledby="contact-title">
+<section id="contact" class="contact-section" aria-labelledby="contact-title">
   <div class="shell contact-inner">
-    <p class="section-kicker reveal">06 / CONTACTO</p>
-    <h2 id="contact-title" class="reveal">¿Hablamos de<br /><span>tu próximo sistema?</span></h2>
-    <p class="contact-copy reveal">Estoy abierto a oportunidades como Backend Developer o Software Engineer, y a conversaciones sobre proyectos donde la fiabilidad importe.</p>
+    <p class="section-kicker reveal">06 / {t.contact.section.toUpperCase()}</p>
+    <h2 id="contact-title" class="reveal">{t.contact.titleTop}<br /><span>{t.contact.titleBottom}</span></h2>
+    <p class="contact-copy reveal">{t.contact.copy}</p>
     <div class="contact-actions reveal">
-      {siteConfig.email && <a class="button button--primary" href={`mailto:${siteConfig.email}`}><Icon name="mail" size={18} /> Escribir un email</a>}
+      {siteConfig.email && <a class="button button--primary" href={`mailto:${siteConfig.email}`}><Icon name="mail" size={18} /> {t.contact.email}</a>}
       {siteConfig.social.map((social) => (
         <a class="button button--secondary" href={social.href} target="_blank" rel="noopener noreferrer">
           <Icon name={social.icon} size={18} />{social.label}<Icon name="external" size={14} />
         </a>
       ))}
-      {siteConfig.cvPath && <a class="button button--secondary" href={siteConfig.cvPath} download>Descargar CV</a>}
+      {siteConfig.cvPath && <a class="button button--secondary" href={siteConfig.cvPath} download>{t.contact.downloadCv}</a>}
     </div>
   </div>
 </section>

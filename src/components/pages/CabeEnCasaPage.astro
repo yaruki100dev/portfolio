@@ -1,0 +1,83 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Icon from "../Icon.astro";
+import { getLocalizedPath, getTranslations } from "../../i18n/utils";
+import type { Locale } from "../../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = getTranslations(locale);
+const homePath = getLocalizedPath(locale);
+const route = "/projects/cabeencasa/";
+---
+
+<BaseLayout
+  locale={locale}
+  route={route}
+  title={t.meta.caseTitle}
+  description={t.meta.caseDescription}
+>
+  <article class="case-study">
+    <header class="case-hero shell">
+      <a class="back-link" href={`${homePath}#projects`}><Icon name="arrow" size={16} /> {t.caseStudy.back}</a>
+      <p class="eyebrow">{t.caseStudy.eyebrow}</p>
+      <h1>CabeEnCasa<span>.</span></h1>
+      <p class="case-lead">{t.caseStudy.lead}</p>
+      <div class="case-meta">
+        <div><span>{t.caseStudy.meta.typeLabel}</span><strong>{t.caseStudy.meta.typeValue}</strong></div>
+        <div><span>{t.caseStudy.meta.statusLabel}</span><strong>{t.caseStudy.meta.statusValue}</strong></div>
+        <div><span>{t.caseStudy.meta.roleLabel}</span><strong>{t.caseStudy.meta.roleValue}</strong></div>
+      </div>
+      <a class="button button--primary" href="https://cabeencasa.es/" target="_blank" rel="noopener noreferrer">{t.caseStudy.visit} <Icon name="external" size={17} /></a>
+    </header>
+
+    <div class="case-body shell">
+      <aside class="case-aside" aria-label={t.caseStudy.indexLabel}>
+        <span>{t.caseStudy.indexLabel}</span>
+        <a href="#context">{t.caseStudy.index.context}</a>
+        <a href="#architecture">{t.caseStudy.index.architecture}</a>
+        <a href="#decisions">{t.caseStudy.index.decisions}</a>
+      </aside>
+      <div class="case-content">
+        <section id="context">
+          <p class="section-kicker">{t.caseStudy.context.kicker}</p>
+          <h2>{t.caseStudy.context.title}</h2>
+          {t.caseStudy.context.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+        </section>
+
+        <section id="architecture">
+          <p class="section-kicker">{t.caseStudy.architecture.kicker}</p>
+          <h2>{t.caseStudy.architecture.title}</h2>
+          <div class="architecture-flow" aria-label={t.caseStudy.architecture.flowLabel}>
+            {t.caseStudy.architecture.flow.map((item, index) => (
+              <>
+                {index > 0 && <i aria-hidden="true"></i>}
+                <div><span>0{index + 1}</span><strong>{item.title}</strong><small>{item.detail}</small></div>
+              </>
+            ))}
+          </div>
+          <p>{t.caseStudy.architecture.copy}</p>
+        </section>
+
+        <section id="decisions">
+          <p class="section-kicker">{t.caseStudy.decisions.kicker}</p>
+          <h2>{t.caseStudy.decisions.title}</h2>
+          <div class="decision-grid">
+            {t.caseStudy.decisions.items.map((item, index) => (
+              <article><span>0{index + 1}</span><h3>{item.title}</h3><p>{item.copy}</p></article>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <footer class="next-project shell">
+      <p>{t.caseStudy.nextProject}</p>
+      <a href={`${homePath}#projects`}>Hispanic StarLeague <Icon name="arrow" size={28} /></a>
+      <span>{t.caseStudy.nextStatus}</span>
+    </footer>
+  </article>
+</BaseLayout>
