@@ -1,0 +1,14 @@
+---
+interface Props {
+  index: string;
+  title: string;
+  description?: string;
+}
+const { index, title, description } = Astro.props;
+---
+
+<header class="section-heading reveal">
+  <p class="section-kicker">{index} / {title.toUpperCase()}</p>
+  <div class="section-heading__line"></div>
+  {description && <p class="section-description">{description}</p>}
+</header>

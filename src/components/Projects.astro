@@ -1,0 +1,39 @@
+---
+import Icon from "./Icon.astro";
+import SectionHeading from "./SectionHeading.astro";
+import { projects } from "../data/site";
+---
+
+<section id="proyectos" class="section shell" aria-labelledby="projects-title">
+  <SectionHeading index="03" title="Proyectos" description="Proyectos propios donde la arquitectura técnica está al servicio de una necesidad concreta." />
+  <h2 id="projects-title" class="display-title reveal">Construir también es<br /><span>tomar buenas decisiones.</span></h2>
+  <div class="projects-grid">
+    {projects.map((project, index) => (
+      <article class:list={["project-card", `project-card--${project.accent}`, "reveal"]}>
+        <div class="project-index">0{index + 1}</div>
+        <div class="project-card__head">
+          <p>{project.eyebrow}</p>
+          {project.status && <span class="status"><i></i>{project.status}</span>}
+        </div>
+        <h3>{project.name}</h3>
+        <p class="project-description">{project.description}</p>
+        <div class="project-problem">
+          <span>NECESIDAD</span>
+          <p>{project.problem}</p>
+        </div>
+        <ul class="tag-list" aria-label={`Tecnologías de ${project.name}`}>
+          {project.technologies.map((technology) => <li>{technology}</li>)}
+        </ul>
+        {project.links.length > 0 && (
+          <div class="project-links">
+            {project.links.map((link) => (
+              <a href={link.href} target={link.kind === "external" ? "_blank" : undefined} rel={link.kind === "external" ? "noopener noreferrer" : undefined}>
+                {link.label}<Icon name={link.kind === "external" ? "external" : "arrow"} size={16} />
+              </a>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </div>
+</section>

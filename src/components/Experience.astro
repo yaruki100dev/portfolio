@@ -1,0 +1,27 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { experiences } from "../data/site";
+---
+
+<section id="experiencia" class="section section--surface" aria-labelledby="experience-title">
+  <div class="shell">
+    <SectionHeading index="02" title="Experiencia" description="Una trayectoria centrada en la lógica, las integraciones y la fiabilidad operativa." />
+    <h2 id="experience-title" class="sr-only">Experiencia profesional</h2>
+    <div class="timeline">
+      {experiences.map((experience) => (
+        <article class="timeline-item reveal">
+          <div class="timeline-rail" aria-hidden="true"><span></span></div>
+          <p class="timeline-period">{experience.period}</p>
+          <div class="timeline-content">
+            <p class="timeline-sector">{experience.sector}</p>
+            <h3>{experience.role}</h3>
+            <p>{experience.summary}</p>
+            <ul>
+              {experience.focus.map((item) => <li>{item}</li>)}
+            </ul>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

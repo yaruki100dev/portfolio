@@ -1,0 +1,81 @@
+---
+import Icon from "./Icon.astro";
+import { siteConfig } from "../data/site";
+---
+
+<section class="hero shell" aria-labelledby="hero-title">
+  <div class="hero-copy">
+    <p class="eyebrow reveal">Disponible para construir sistemas que perduran</p>
+    <h1 id="hero-title" class="reveal">
+      <span>Backend</span>
+      <span class="outline-text">Developer<span class="accent-dot">.</span></span>
+    </h1>
+    <p class="hero-intro reveal">
+      Soy <strong>{siteConfig.name}</strong>. Desarrollo sistemas backend con Python, conecto servicios y automatizo procesos desde 2019.
+    </p>
+    <div class="hero-meta reveal">
+      <span><Icon name="location" size={16} />{siteConfig.location}</span>
+      <span class="availability"><i></i>Abierto a oportunidades</span>
+    </div>
+    <div class="hero-actions reveal">
+      <a class="button button--primary" href="#proyectos">Ver proyectos <Icon name="arrow" size={18} /></a>
+      <a class="button button--secondary" href="#contacto">Contactar</a>
+    </div>
+    <div class="hero-socials reveal">
+      {siteConfig.social.map((social) => (
+        <a href={social.href} target="_blank" rel="noopener noreferrer">
+          <Icon name={social.icon} size={18} /><span>{social.label}</span><Icon name="external" size={13} />
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <div class="system-map reveal" aria-label="Diagrama abstracto de una arquitectura backend">
+    <div class="system-map__topline">
+      <span>system.map</span>
+      <span>v1.0</span>
+    </div>
+    <svg viewBox="0 0 560 520" role="img" aria-labelledby="map-title map-description">
+      <title id="map-title">Arquitectura de servicios</title>
+      <desc id="map-description">Nodos de API, núcleo, datos y procesos conectados entre sí.</desc>
+      <defs>
+        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+          <path d="M 32 0 L 0 0 0 32" fill="none" class="map-grid" stroke-width="1" />
+        </pattern>
+      </defs>
+      <rect width="560" height="520" fill="url(#grid)" />
+      <g class="map-lines" fill="none" stroke-width="1.5">
+        <path d="M125 105H250V220" />
+        <path d="M435 105H310V220" />
+        <path d="M280 280V385H125" />
+        <path d="M280 280V385H435" />
+      </g>
+      <g class="map-pulses" fill="none" stroke-width="3">
+        <path pathLength="1" d="M125 105H250V220" />
+        <path pathLength="1" d="M280 280V385H435" />
+      </g>
+      <g class="map-node map-node--small">
+        <rect x="65" y="75" width="120" height="60" rx="8" />
+        <text x="85" y="101">01 / API</text><text x="85" y="119">REQUESTS</text>
+      </g>
+      <g class="map-node map-node--small">
+        <rect x="375" y="75" width="120" height="60" rx="8" />
+        <text x="395" y="101">02 / JOBS</text><text x="395" y="119">ASYNC</text>
+      </g>
+      <g class="map-node map-node--core">
+        <rect x="220" y="205" width="120" height="90" rx="12" />
+        <circle cx="280" cy="235" r="8" />
+        <text x="280" y="267" text-anchor="middle">CORE</text>
+      </g>
+      <g class="map-node map-node--small">
+        <rect x="65" y="355" width="120" height="60" rx="8" />
+        <text x="85" y="381">03 / DATA</text><text x="85" y="399">PERSIST</text>
+      </g>
+      <g class="map-node map-node--small">
+        <rect x="375" y="355" width="120" height="60" rx="8" />
+        <text x="395" y="381">04 / SYNC</text><text x="395" y="399">AUTOMATE</text>
+      </g>
+      <g class="map-status"><circle cx="77" cy="466" r="4" /><text x="91" y="470">ALL SYSTEMS OPERATIONAL</text></g>
+    </svg>
+  </div>
+</section>

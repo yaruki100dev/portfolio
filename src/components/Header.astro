@@ -1,0 +1,82 @@
+---
+import Icon from "./Icon.astro";
+import { navigation, siteConfig } from "../data/site";
+---
+
+<header class="site-header" data-header>
+  <div class="shell header-inner">
+    <a class="monogram" href="/" aria-label={`${siteConfig.name}, inicio`}>
+      <span>{siteConfig.initials}</span><i aria-hidden="true"></i>
+    </a>
+
+    <nav class="desktop-nav" aria-label="Navegación principal">
+      {navigation.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="header-actions">
+      <a class="contact-link" href="/#contacto">Contacto <Icon name="arrow" size={16} /></a>
+      <button class="icon-button theme-toggle" type="button" aria-label="Cambiar a tema claro" aria-pressed="true" data-theme-toggle>
+        <span class="theme-icon theme-icon--moon"><Icon name="moon" size={18} /></span>
+        <span class="theme-icon theme-icon--sun"><Icon name="sun" size={18} /></span>
+      </button>
+      <button class="icon-button menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span class="menu-icon menu-icon--open"><Icon name="menu" /></span>
+        <span class="menu-icon menu-icon--close"><Icon name="close" /></span>
+      </button>
+    </div>
+  </div>
+
+  <nav id="mobile-menu" class="mobile-nav" aria-label="Navegación móvil" data-mobile-menu hidden>
+    <div class="shell">
+      {navigation.map((item, index) => (
+        <a href={item.href} data-mobile-link>
+          <span>0{index + 1}</span>{item.label}
+        </a>
+      ))}
+      <a href="/#contacto" data-mobile-link><span>05</span>Contacto</a>
+    </div>
+  </nav>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>("[data-header]");
+  const menuButton = document.querySelector<HTMLButtonElement>("[data-menu-toggle]");
+  const mobileMenu = document.querySelector<HTMLElement>("[data-mobile-menu]");
+
+  const closeMenu = () => {
+    if (!menuButton || !mobileMenu) return;
+    menuButton.setAttribute("aria-expanded", "false");
+    menuButton.setAttribute("aria-label", "Abrir menú");
+    mobileMenu.hidden = true;
+    document.body.classList.remove("menu-open");
+  };
+
+  menuButton?.addEventListener("click", () => {
+    if (!mobileMenu) return;
+    const isOpen = menuButton.getAttribute("aria-expanded") === "true";
+    menuButton.setAttribute("aria-expanded", String(!isOpen));
+    menuButton.setAttribute("aria-label", isOpen ? "Abrir menú" : "Cerrar menú");
+    mobileMenu.hidden = isOpen;
+    document.body.classList.toggle("menu-open", !isOpen);
+  });
+
+  document.querySelectorAll("[data-mobile-link]").forEach((link) => link.addEventListener("click", closeMenu));
+  window.addEventListener("resize", () => { if (window.innerWidth >= 900) closeMenu(); });
+  window.addEventListener("scroll", () => header?.classList.toggle("is-scrolled", window.scrollY > 12), { passive: true });
+
+  const themeButton = document.querySelector<HTMLButtonElement>("[data-theme-toggle]");
+  const updateThemeButton = (theme: "dark" | "light") => {
+    if (!themeButton) return;
+    const dark = theme === "dark";
+    themeButton.setAttribute("aria-pressed", String(dark));
+    themeButton.setAttribute("aria-label", dark ? "Cambiar a tema claro" : "Cambiar a tema oscuro");
+  };
+  updateThemeButton(document.documentElement.dataset.theme === "light" ? "light" : "dark");
+
+  themeButton?.addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
+    localStorage.setItem("theme", next);
+    updateThemeButton(next);
+  });
+</script>

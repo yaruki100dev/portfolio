@@ -1,0 +1,16 @@
+---
+import SectionHeading from "./SectionHeading.astro";
+import { education } from "../data/site";
+---
+
+<section id="formacion" class="section shell" aria-labelledby="education-title">
+  <SectionHeading index="05" title="Formación" />
+  <div class="education-card reveal">
+    <div class="education-mark" aria-hidden="true">&lt;/&gt;</div>
+    <div>
+      <p>Formación reglada</p>
+      <h2 id="education-title">{education[0].qualification}</h2>
+      <span>{education[0].field}</span>
+    </div>
+  </div>
+</section>
