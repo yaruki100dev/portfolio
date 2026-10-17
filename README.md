@@ -12,7 +12,7 @@ Portfolio personal de Ismael Díaz, Backend Developer especializado en Python, i
 
 ## Requisitos y uso local
 
-Necesitas Node.js 22.12 o posterior. El proyecto usa la última versión estable de Astro compatible con ese runtime.
+Necesitas Node.js 22.22 o posterior. El proyecto usa Astro 7 y Tailwind CSS 4.
 
 ```bash
 npm install
