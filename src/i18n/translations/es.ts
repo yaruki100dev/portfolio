@@ -113,7 +113,26 @@ export const es = {
   },
   technologies: {
     python: "Python",
+    java: "Java",
+    javascript: "JavaScript",
+    fastapi: "FastAPI",
+    django: "Django",
+    flask: "Flask",
+    springBoot: "Spring Boot",
+    restApis: "REST APIs",
+    postgresql: "PostgreSQL",
+    mysql: "MySQL",
     sql: "SQL",
+    sqlalchemy: "SQLAlchemy",
+    djangoOrm: "Django ORM",
+    alembic: "Alembic",
+    rabbitmq: "RabbitMQ",
+    apacheKafka: "Apache Kafka",
+    systemIntegration: "Integración de sistemas",
+    docker: "Docker",
+    dockerCompose: "Docker Compose",
+    digitalOceanVps: "DigitalOcean (VPS)",
+    ciCd: "CI/CD",
     apis: "APIs",
     serviceIntegration: "Integración de servicios",
     automation: "Automatización",
@@ -123,6 +142,7 @@ export const es = {
     astro: "Astro",
     cloudflarePages: "Cloudflare Pages",
     ssg: "Generación estática",
+    staticSiteGeneration: "Generación de sitios estáticos",
     technicalSeo: "SEO técnico",
     responsiveDesign: "Diseño responsive",
     dataIntegration: "Integración de datos",
@@ -132,6 +152,7 @@ export const es = {
   },
   stack: {
     section: "Stack",
+    primary: "Principal",
     description: "Tecnologías y áreas de trabajo confirmadas, sin rankings artificiales.",
     titleTop: "Herramientas para",
     titleBottom: "resolver, no adornar.",
@@ -140,15 +161,23 @@ export const es = {
     groups: {
       languages: {
         title: "Lenguajes",
-        note: "Herramientas principales para lógica de negocio y trabajo con datos.",
+        note: "Python como lenguaje principal, con experiencia adicional en Java y JavaScript.",
       },
       backend: {
-        title: "Backend e integración",
-        note: "Diseño de flujos fiables entre sistemas y reducción de tareas manuales.",
+        title: "Backend y APIs",
+        note: "Frameworks y APIs REST utilizados en mi trabajo de desarrollo backend.",
       },
-      tools: {
-        title: "Herramientas y sistemas",
-        note: "Entornos y prácticas que sostienen un desarrollo mantenible.",
+      databases: {
+        title: "Bases de datos y ORM",
+        note: "Bases de datos relacionales, acceso a datos con ORMs y migraciones de esquema.",
+      },
+      messaging: {
+        title: "Mensajería e integración",
+        note: "Herramientas de mensajería y experiencia conectando aplicaciones y servicios.",
+      },
+      infrastructure: {
+        title: "Infraestructura y DevOps",
+        note: "Contenedores, Linux, gestión de VPS y CI/CD como apoyo al desarrollo backend.",
       },
       web: {
         title: "Desarrollo web",

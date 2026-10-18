@@ -934,30 +934,17 @@ button {
 }
 
 /* Stack */
-.stack-layout {
-  display: grid;
-  grid-template-columns: minmax(18rem, 0.78fr) minmax(0, 1.22fr);
-  gap: clamp(3rem, 9vw, 8rem);
-}
-
-.stack-intro {
-  position: sticky;
-  top: 7rem;
-  align-self: start;
-}
-
 .stack-intro > p {
   max-width: 28rem;
-  margin: 1.8rem 0 0;
+  margin: 0;
   color: var(--text-soft);
 }
 
 .stack-group {
   display: grid;
-  grid-template-columns: 3rem 1fr;
-  gap: 1rem;
+  grid-template-columns: 2rem minmax(0, 1fr);
+  gap: 0.75rem;
   padding: 0 0 2.1rem;
-  margin-bottom: 2.1rem;
   border-bottom: 1px solid var(--border);
 }
 
@@ -991,9 +978,21 @@ button {
   padding: 0.42rem 0.68rem;
   background: var(--accent-soft);
   color: var(--text);
+  border: 1px solid transparent;
   border-radius: 0.25rem;
   font-family: var(--font-code);
   font-size: 0.68rem;
+  overflow-wrap: anywhere;
+}
+
+.stack-group .stack-tag--primary {
+  border-color: var(--border-strong);
+}
+
+.stack-primary {
+  margin-left: 0.5rem;
+  color: var(--accent-text);
+  font-weight: 600;
 }
 
 /* Education */
@@ -1466,18 +1465,13 @@ button {
     margin-inline: auto;
   }
 
-  .projects-grid,
-  .stack-layout {
+  .projects-grid {
     grid-template-columns: 1fr;
   }
 
   .project-description,
   .tag-list {
     min-height: auto;
-  }
-
-  .stack-intro {
-    position: static;
   }
 
   .case-body {

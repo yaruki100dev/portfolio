@@ -58,16 +58,30 @@ export const projectDefinitions: ProjectDefinition[] = [
 ];
 
 export const technologyGroupDefinitions: TechnologyGroupDefinition[] = [
-  { key: "languages", index: "01", items: ["python", "sql"] },
+  { key: "languages", index: "01", items: ["python", "java", "javascript"], primary: "python" },
   {
     key: "backend",
     index: "02",
-    items: ["apis", "serviceIntegration", "automation", "synchronization"],
+    items: ["fastapi", "django", "flask", "springBoot", "restApis"],
   },
-  { key: "tools", index: "03", items: ["git", "linux"] },
+  {
+    key: "databases",
+    index: "03",
+    items: ["postgresql", "mysql", "sql", "sqlalchemy", "djangoOrm", "alembic"],
+  },
+  {
+    key: "messaging",
+    index: "04",
+    items: ["rabbitmq", "apacheKafka", "systemIntegration"],
+  },
+  {
+    key: "infrastructure",
+    index: "05",
+    items: ["docker", "dockerCompose", "linux", "digitalOceanVps", "ciCd", "git"],
+  },
   {
     key: "web",
-    index: "04",
-    items: ["astro", "ssg", "technicalSeo", "responsiveDesign"],
+    index: "06",
+    items: ["astro", "staticSiteGeneration", "technicalSeo", "responsiveDesign"],
   },
 ];

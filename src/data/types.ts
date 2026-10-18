@@ -10,7 +10,26 @@ export type ProjectKey = "cabeencasa" | "hispanicStarLeague";
 
 export type TechnologyKey =
   | "python"
+  | "java"
+  | "javascript"
+  | "fastapi"
+  | "django"
+  | "flask"
+  | "springBoot"
+  | "restApis"
+  | "postgresql"
+  | "mysql"
   | "sql"
+  | "sqlalchemy"
+  | "djangoOrm"
+  | "alembic"
+  | "rabbitmq"
+  | "apacheKafka"
+  | "systemIntegration"
+  | "docker"
+  | "dockerCompose"
+  | "digitalOceanVps"
+  | "ciCd"
   | "apis"
   | "serviceIntegration"
   | "automation"
@@ -20,6 +39,7 @@ export type TechnologyKey =
   | "astro"
   | "cloudflarePages"
   | "ssg"
+  | "staticSiteGeneration"
   | "technicalSeo"
   | "responsiveDesign"
   | "dataIntegration"
@@ -41,7 +61,8 @@ export interface ProjectDefinition {
 }
 
 export interface TechnologyGroupDefinition {
-  key: "languages" | "backend" | "tools" | "web";
+  key: "languages" | "backend" | "databases" | "messaging" | "infrastructure" | "web";
   index: string;
   items: TechnologyKey[];
+  primary?: TechnologyKey;
 }

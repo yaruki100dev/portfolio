@@ -14,19 +14,26 @@ const t = getTranslations(Astro.props.locale);
 <section id="stack" class="section section--surface" aria-labelledby="stack-title">
   <div class="shell">
     <SectionHeading index="04" title={t.stack.section} description={t.stack.description} />
-    <div class="stack-layout">
-      <div class="stack-intro reveal">
+    <div class="stack-layout grid gap-12">
+      <div class="stack-intro reveal grid gap-6 md:grid-cols-2 md:items-end md:gap-12">
         <h2 id="stack-title" class="display-title">{t.stack.titleTop}<br /><span>{t.stack.titleBottom}</span></h2>
         <p>{t.stack.intro}</p>
       </div>
-      <div class="stack-groups">
+      <div class="stack-groups grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 xl:grid-cols-3">
         {technologyGroupDefinitions.map((group) => (
           <article class="stack-group reveal">
             <span class="stack-index">{group.index}</span>
             <div>
               <h3>{t.stack.groups[group.key].title}</h3>
               <p>{t.stack.groups[group.key].note}</p>
-              <ul>{group.items.map((item) => <li>{t.technologies[item]}</li>)}</ul>
+              <ul>
+                {group.items.map((item) => (
+                  <li class:list={{ "stack-tag--primary": group.primary === item }}>
+                    {t.technologies[item]}
+                    {group.primary === item && <span class="stack-primary">{" "}{t.stack.primary}</span>}
+                  </li>
+                ))}
+              </ul>
             </div>
           </article>
         ))}
