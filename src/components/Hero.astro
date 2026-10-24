@@ -1,5 +1,6 @@
 ---
 import Icon from "./Icon.astro";
+import EventFlow from "./EventFlow.astro";
 import { siteConfig } from "../data/site";
 import { getTranslations } from "../i18n/utils";
 import type { Locale } from "../i18n/types";
@@ -38,52 +39,5 @@ const t = getTranslations(Astro.props.locale);
     </div>
   </div>
 
-  <div class="system-map reveal" aria-label={t.hero.mapLabel}>
-    <div class="system-map__topline">
-      <span>system.map</span>
-      <span>v1.0</span>
-    </div>
-    <svg viewBox="0 0 560 520" role="img" aria-labelledby="map-title map-description">
-      <title id="map-title">{t.hero.mapTitle}</title>
-      <desc id="map-description">{t.hero.mapDescription}</desc>
-      <defs>
-        <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-          <path d="M 32 0 L 0 0 0 32" fill="none" class="map-grid" stroke-width="1" />
-        </pattern>
-      </defs>
-      <rect width="560" height="520" fill="url(#grid)" />
-      <g class="map-lines" fill="none" stroke-width="1.5">
-        <path d="M125 105H250V220" />
-        <path d="M435 105H310V220" />
-        <path d="M280 280V385H125" />
-        <path d="M280 280V385H435" />
-      </g>
-      <g class="map-pulses" fill="none" stroke-width="3">
-        <path pathLength="1" d="M125 105H250V220" />
-        <path pathLength="1" d="M280 280V385H435" />
-      </g>
-      <g class="map-node map-node--small">
-        <rect x="65" y="75" width="120" height="60" rx="8" />
-        <text x="85" y="101">01 / API</text><text x="85" y="119">{t.hero.map.requests}</text>
-      </g>
-      <g class="map-node map-node--small">
-        <rect x="375" y="75" width="120" height="60" rx="8" />
-        <text x="395" y="101">02 / {t.hero.map.jobs}</text><text x="395" y="119">{t.hero.map.async}</text>
-      </g>
-      <g class="map-node map-node--core">
-        <rect x="220" y="205" width="120" height="90" rx="12" />
-        <circle cx="280" cy="235" r="8" />
-        <text x="280" y="267" text-anchor="middle">{t.hero.map.core}</text>
-      </g>
-      <g class="map-node map-node--small">
-        <rect x="65" y="355" width="120" height="60" rx="8" />
-        <text x="85" y="381">03 / {t.hero.map.data}</text><text x="85" y="399">{t.hero.map.persist}</text>
-      </g>
-      <g class="map-node map-node--small">
-        <rect x="375" y="355" width="120" height="60" rx="8" />
-        <text x="395" y="381">04 / {t.hero.map.sync}</text><text x="395" y="399">{t.hero.map.automate}</text>
-      </g>
-      <g class="map-status"><circle cx="77" cy="466" r="4" /><text x="91" y="470">{t.hero.map.operational}</text></g>
-    </svg>
-  </div>
+  <EventFlow locale={Astro.props.locale} />
 </section>

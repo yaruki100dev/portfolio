@@ -1,0 +1,288 @@
+---
+import { getTranslations } from "../i18n/utils";
+import type { Locale } from "../i18n/types";
+
+interface Props {
+  locale: Locale;
+}
+
+const t = getTranslations(Astro.props.locale).eventFlow;
+const nodes = [
+  { id: "api", name: "API", icon: '<path d="m8 7-5 5 5 5m8-10 5 5-5 5m-3-13-2 16"/>', states: [{ id: "validating", label: t.validating }, { id: "published", label: t.published }] },
+  { id: "broker", name: "BROKER", icon: '<rect x="3" y="4" width="18" height="5" rx="1.5"/><rect x="3" y="15" width="18" height="5" rx="1.5"/><path d="M7 6.5h.01M7 17.5h.01M12 9v6m-3-3h6"/>', states: [{ id: "ready", label: t.messageReady }, { id: "delivered", label: t.delivered }] },
+  { id: "worker", name: "WORKER", icon: '<rect x="6" y="6" width="12" height="12" rx="2"/><path d="M9 2v4m6-4v4M9 18v4m6-4v4M2 9h4m-4 6h4m12-6h4m-4 6h4m-12-3 2 2 4-4"/>', states: [{ id: "processing", label: t.processing }, { id: "processed", label: t.processed }] },
+  { id: "database", name: "DATABASE", icon: '<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/>', states: [{ id: "persisted", label: t.persisted }] },
+];
+---
+
+<event-flow class="event-flow">
+  <div class="flow-topline">
+    <span>{t.title}</span>
+    <span class="flow-simulation">{t.simulation}</span>
+  </div>
+  <div class="flow-body">
+    <div class="flow-caption" aria-hidden="true"><span>01 → 04</span><span>{t.caption}</span></div>
+    <div role="img" aria-label={t.description}>
+      <div class="flow-chain" aria-hidden="true">
+        {nodes.map((node, index) => (
+          <>
+            <div class:list={["flow-node", `flow-node--${node.id}`]}>
+              <div class="flow-node__surface"></div>
+              {index === 0 && <span class="flow-request"></span>}
+              <span class="flow-node__index">0{index + 1}</span>
+              <svg class="flow-icon" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><Fragment set:html={node.icon} /></svg>
+              <span class="flow-node__name">{node.name}</span>
+              <span class="flow-state">
+                <span class="flow-idle">{t.waiting}</span>
+                {node.states.map((state) => <span class:list={["flow-state__step", `flow-state--${state.id}`]}>{state.label}</span>)}
+              </span>
+            </div>
+            {index < nodes.length - 1 && (
+              <div class:list={["flow-link", `flow-link--${index + 1}`]}>
+                <span class="flow-link__arrow"></span>
+                <span class="flow-packet"><i></i></span>
+              </div>
+            )}
+          </>
+        ))}
+      </div>
+    </div>
+    <div class="flow-result" aria-hidden="true">
+      <span class="flow-result__route">{t.route}</span>
+      <span class="flow-result__done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m5 12 4 4L19 6" /></svg>{t.completed}</span>
+    </div>
+  </div>
+  <div class="flow-bottomline">
+    <span>{t.architecture}</span>
+    <button class="flow-toggle" type="button" aria-pressed="false" data-pause={t.pause} data-resume={t.resume} disabled>{t.pause}</button>
+  </div>
+</event-flow>
+
+<script>
+  // CSS owns the nine-second sequence. This element only controls its lifecycle.
+  class EventFlow extends HTMLElement {
+    private observer?: IntersectionObserver;
+    private controller?: AbortController;
+    private motion = matchMedia("(prefers-reduced-motion: reduce)");
+    private inView = false;
+    private paused = false;
+
+    connectedCallback() {
+      this.controller = new AbortController();
+      const { signal } = this.controller;
+      const button = this.querySelector<HTMLButtonElement>(".flow-toggle");
+      button?.addEventListener("click", () => {
+        this.paused = !this.paused;
+        button.setAttribute("aria-pressed", String(this.paused));
+        button.textContent = (this.paused ? button.dataset.resume : button.dataset.pause) ?? "";
+        this.update();
+      }, { signal });
+      document.addEventListener("visibilitychange", this.update, { signal });
+      this.motion.addEventListener("change", this.update, { signal });
+      if ("IntersectionObserver" in window) {
+        this.observer = new IntersectionObserver(([entry]) => {
+          this.inView = entry.isIntersecting;
+          this.update();
+        }, { threshold: 0.15 });
+        this.observer.observe(this);
+      } else {
+        this.inView = true;
+      }
+      this.dataset.enhanced = "true";
+      if (button) button.disabled = false;
+      this.update();
+    }
+
+    private update = () => {
+      this.dataset.running = String(this.inView && !document.hidden && !this.motion.matches && !this.paused);
+    };
+
+    disconnectedCallback() {
+      this.observer?.disconnect();
+      this.controller?.abort();
+    }
+  }
+
+  if (!customElements.get("event-flow")) customElements.define("event-flow", EventFlow);
+</script>
+
+<style>
+  .event-flow {
+    --cycle: 9s;
+    --success: light-dark(#28704e, #8ed9af);
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+    font-family: var(--font-code);
+    container-type: inline-size;
+  }
+
+  .flow-topline, .flow-bottomline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem 1rem;
+    padding: 0.8rem 1rem;
+    color: var(--text-soft);
+    font-size: 0.7rem;
+  }
+
+  .flow-topline { border-bottom: 1px solid var(--border); }
+  .flow-simulation { color: var(--accent-text); }
+  .flow-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3.2rem;
+    min-height: 23rem;
+    aspect-ratio: 1.25;
+    padding: 2rem 1rem;
+  }
+  .flow-caption {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    color: var(--text-faint);
+    font-size: 0.7rem;
+  }
+  .flow-caption > span:first-child { color: var(--accent-text); white-space: nowrap; }
+  .flow-chain {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1.1rem minmax(0, 1fr) 1.1rem minmax(0, 1fr) 1.1rem minmax(0, 1fr);
+    align-items: center;
+  }
+  .flow-node {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    min-height: 9.75rem;
+    justify-items: center;
+    align-content: start;
+    padding: 0.65rem 0.2rem;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+  }
+  .flow-node__surface {
+    position: absolute;
+    inset: -1px;
+    border: 1px solid var(--accent);
+    border-radius: inherit;
+    background: var(--accent-soft);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .flow-node--database .flow-node__surface { border-color: var(--success); background: color-mix(in srgb, var(--success) 8%, transparent); }
+  .flow-request { position: absolute; top: 0.8rem; right: 0.65rem; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); opacity: 0; }
+  .flow-node__index { justify-self: start; margin-left: 0.4rem; color: var(--text-faint); font-size: 0.65rem; }
+  .flow-icon { position: relative; margin-block: 0.65rem 0.8rem; color: var(--accent-text); }
+  .flow-node__name { color: var(--text); font-size: 0.75rem; font-weight: 650; letter-spacing: 0.02em; }
+  .flow-state { display: grid; width: 100%; margin-top: 0.5rem; text-align: center; font-size: 0.7rem; line-height: 1.35; overflow-wrap: anywhere; }
+  .flow-state > span { grid-area: 1 / 1; }
+  .flow-idle { color: var(--text-faint); }
+  .flow-state__step { color: var(--accent-text); opacity: 0; }
+  .flow-state--persisted, .flow-result__done { color: var(--success); }
+  .flow-link { position: relative; height: 1px; background: var(--text-faint); }
+  .flow-link__arrow { position: absolute; top: -2px; right: 1px; width: 5px; height: 5px; border-top: 1px solid var(--text-faint); border-right: 1px solid var(--text-faint); transform: rotate(45deg); }
+  .flow-packet { position: absolute; inset: -2px 0 auto; height: 5px; opacity: 0; }
+  .flow-packet i { display: block; width: 5px; height: 5px; margin-left: -2.5px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+  .flow-result { display: grid; min-height: 1.5rem; font-size: 0.75rem; text-align: center; }
+  .flow-result > span { grid-area: 1 / 1; }
+  .flow-result__route { color: var(--text-soft); }
+  .flow-result__done { display: flex; align-items: center; justify-content: center; gap: 0.5rem; opacity: 0; }
+  .flow-bottomline { border-top: 1px solid var(--border); font-size: 0.65rem; }
+  .flow-toggle { visibility: hidden; padding: 0.2rem 0; border: 0; border-bottom: 1px solid var(--border-strong); background: transparent; color: var(--text-soft); cursor: pointer; font: inherit; }
+  [data-enhanced] .flow-toggle { visibility: visible; }
+  .flow-toggle:hover { color: var(--accent-text); }
+
+  /* Every track uses the same clock; arrival boundaries match node activation.
+     0–1s validation; 1–2s publish; 2–3s queue; 3–4s delivery;
+     4–6s processing; 6–7.2s write; 7.2–8.5s complete; 8.5–9s reset. */
+  [data-enhanced] :is(.flow-node__surface, .flow-request, .flow-state > span, .flow-packet, .flow-result > span) {
+    animation-duration: var(--cycle);
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+    animation-play-state: paused;
+  }
+  [data-running="true"] :is(.flow-node__surface, .flow-request, .flow-state > span, .flow-packet, .flow-result > span) { animation-play-state: running; }
+  [data-enhanced] .flow-request { animation-name: api-active; }
+  [data-enhanced] .flow-node--api .flow-node__surface { animation-name: api-active; }
+  [data-enhanced] .flow-node--broker .flow-node__surface { animation-name: broker-active; }
+  [data-enhanced] .flow-node--worker .flow-node__surface { animation-name: worker-active; }
+  [data-enhanced] .flow-node--database .flow-node__surface { animation-name: database-active; }
+  [data-enhanced] .flow-node--api .flow-idle { animation-name: api-idle; }
+  [data-enhanced] .flow-node--broker .flow-idle { animation-name: broker-idle; }
+  [data-enhanced] .flow-node--worker .flow-idle { animation-name: worker-idle; }
+  [data-enhanced] .flow-node--database .flow-idle { animation-name: database-idle; }
+  [data-enhanced] .flow-state--validating { animation-name: validating; }
+  [data-enhanced] .flow-state--published { animation-name: published; }
+  [data-enhanced] .flow-state--ready { animation-name: ready; }
+  [data-enhanced] .flow-state--delivered { animation-name: delivered; }
+  [data-enhanced] .flow-state--processing { animation-name: processing; }
+  [data-enhanced] .flow-state--processed { animation-name: processed; }
+  [data-enhanced] .flow-state--persisted { animation-name: persisted; }
+  [data-enhanced] .flow-link--1 .flow-packet { animation-name: publish-packet; }
+  [data-enhanced] .flow-link--2 .flow-packet { animation-name: consume-packet; }
+  [data-enhanced] .flow-link--3 .flow-packet { animation-name: persist-packet; }
+  [data-enhanced] .flow-result__route { animation-name: database-idle; }
+  [data-enhanced] .flow-result__done { animation-name: persisted; }
+
+  @keyframes api-active { 0%, 22.22%, 100% { opacity: 0; } 3%, 19% { opacity: 1; } }
+  @keyframes broker-active { 0%, 22.21%, 47%, 100% { opacity: 0; } 24%, 44.44% { opacity: 1; } }
+  @keyframes worker-active { 0%, 44.43%, 82%, 100% { opacity: 0; } 46%, 50%, 60%, 66.67%, 80% { opacity: 1; } 55% { opacity: 0.45; } }
+  @keyframes database-active { 0%, 79.99%, 100% { opacity: 0; } 82%, 94.44% { opacity: 1; } }
+  @keyframes api-idle { 0%, 100% { opacity: 1; } 1%, 97% { opacity: 0; } }
+  @keyframes broker-idle { 0%, 22.21%, 100% { opacity: 1; } 22.22%, 97% { opacity: 0; } }
+  @keyframes worker-idle { 0%, 44.43%, 100% { opacity: 1; } 44.44%, 97% { opacity: 0; } }
+  @keyframes database-idle { 0%, 79.99%, 100% { opacity: 1; } 80%, 97% { opacity: 0; } }
+  @keyframes validating { 0%, 11.11%, 100% { opacity: 0; } 1%, 11.1% { opacity: 1; } }
+  @keyframes published { 0%, 11.1%, 97%, 100% { opacity: 0; } 11.11%, 94.44% { opacity: 1; } }
+  @keyframes ready { 0%, 22.21%, 44.44%, 100% { opacity: 0; } 22.22%, 44.43% { opacity: 1; } }
+  @keyframes delivered { 0%, 44.43%, 97%, 100% { opacity: 0; } 44.44%, 94.44% { opacity: 1; } }
+  @keyframes processing { 0%, 44.43%, 66.67%, 100% { opacity: 0; } 44.44%, 66.66% { opacity: 1; } }
+  @keyframes processed { 0%, 66.66%, 97%, 100% { opacity: 0; } 66.67%, 94.44% { opacity: 1; } }
+  @keyframes persisted { 0%, 79.99%, 97%, 100% { opacity: 0; } 80%, 94.44% { opacity: 1; } }
+  @keyframes publish-packet { 0%, 11.1% { opacity: 0; transform: translateX(0); } 11.11% { opacity: 1; transform: translateX(0); } 22.21% { opacity: 1; transform: translateX(100%); } 22.22%, 100% { opacity: 0; transform: translateX(100%); } }
+  @keyframes consume-packet { 0%, 33.32% { opacity: 0; transform: translateX(0); } 33.33% { opacity: 1; transform: translateX(0); } 44.43% { opacity: 1; transform: translateX(100%); } 44.44%, 100% { opacity: 0; transform: translateX(100%); } }
+  @keyframes persist-packet { 0%, 66.66% { opacity: 0; transform: translateX(0); } 66.67% { opacity: 1; transform: translateX(0); } 79.99% { opacity: 1; transform: translateX(100%); } 80%, 100% { opacity: 0; transform: translateX(100%); } }
+
+  /* Static progressive enhancement also covers disabled JavaScript. */
+  .event-flow:not([data-enhanced]) .flow-idle { opacity: 0; }
+  .event-flow:not([data-enhanced]) :is(.flow-state--published, .flow-state--delivered, .flow-state--processed, .flow-state--persisted, .flow-result__done) { opacity: 1; }
+  .event-flow:not([data-enhanced]) .flow-result__route { opacity: 0; }
+
+  @media (max-width: 899px) {
+    .event-flow { width: min(100%, 35rem); margin-inline: auto; }
+  }
+
+  @container (max-width: 439px) {
+    .flow-body { aspect-ratio: auto; min-height: 0; gap: 1.5rem; padding-block: 1.5rem; }
+    .flow-chain { grid-template-columns: 1fr; justify-items: stretch; }
+    .flow-node { grid-template-columns: 1.5rem 2rem minmax(0, 1fr) minmax(0, 1.25fr); align-items: center; align-content: center; justify-items: start; min-height: 4.25rem; gap: 0.5rem; padding: 0.65rem; }
+    .flow-node__index { margin: 0; }
+    .flow-icon { margin: 0; }
+    .flow-state { margin: 0; text-align: right; }
+    .flow-link { justify-self: center; width: 1px; height: 1.25rem; }
+    .flow-link__arrow { top: auto; right: -2px; bottom: 1px; transform: rotate(135deg); }
+    .flow-packet { inset: 0 auto 0 -2px; width: 5px; height: 100%; }
+    .flow-packet i { margin-left: 0; margin-top: -2.5px; }
+    [data-enhanced] .flow-link--1 .flow-packet { animation-name: publish-packet-vertical; }
+    [data-enhanced] .flow-link--2 .flow-packet { animation-name: consume-packet-vertical; }
+    [data-enhanced] .flow-link--3 .flow-packet { animation-name: persist-packet-vertical; }
+  }
+  @keyframes publish-packet-vertical { 0%, 11.1% { opacity: 0; transform: translateY(0); } 11.11% { opacity: 1; transform: translateY(0); } 22.21% { opacity: 1; transform: translateY(100%); } 22.22%, 100% { opacity: 0; transform: translateY(100%); } }
+  @keyframes consume-packet-vertical { 0%, 33.32% { opacity: 0; transform: translateY(0); } 33.33% { opacity: 1; transform: translateY(0); } 44.43% { opacity: 1; transform: translateY(100%); } 44.44%, 100% { opacity: 0; transform: translateY(100%); } }
+  @keyframes persist-packet-vertical { 0%, 66.66% { opacity: 0; transform: translateY(0); } 66.67% { opacity: 1; transform: translateY(0); } 79.99% { opacity: 1; transform: translateY(100%); } 80%, 100% { opacity: 0; transform: translateY(100%); } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .event-flow :is(.flow-node__surface, .flow-request, .flow-state > span, .flow-packet, .flow-result > span) { animation: none !important; }
+    .event-flow :is(.flow-idle, .flow-result__route, .flow-toggle) { display: none; }
+    .event-flow :is(.flow-state--published, .flow-state--delivered, .flow-state--processed, .flow-state--persisted, .flow-result__done) { opacity: 1; }
+    .event-flow .flow-node--database .flow-node__surface { opacity: 1; }
+  }
+</style>

@@ -584,98 +584,6 @@ button {
   color: var(--accent-text);
 }
 
-.system-map {
-  position: relative;
-  overflow: hidden;
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
-}
-
-.system-map::before {
-  position: absolute;
-  z-index: 2;
-  inset: 0;
-  border: 1px solid var(--accent-soft);
-  border-radius: inherit;
-  pointer-events: none;
-  content: "";
-}
-
-.system-map__topline {
-  display: flex;
-  justify-content: space-between;
-  padding: 0.8rem 1rem;
-  color: var(--text-faint);
-  border-bottom: 1px solid var(--border);
-  font-family: var(--font-code);
-  font-size: 0.65rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.system-map svg {
-  display: block;
-  width: 100%;
-  aspect-ratio: 1.08;
-}
-
-.map-grid {
-  stroke: var(--border);
-}
-
-.map-lines {
-  stroke: var(--border-strong);
-}
-
-.map-pulses {
-  stroke: var(--accent);
-  stroke-dasharray: 0.08 0.92;
-  stroke-dashoffset: 1;
-  animation: route 3.4s linear infinite;
-}
-
-.map-node rect {
-  fill: var(--surface);
-  stroke: var(--border-strong);
-}
-
-.map-node text,
-.map-status text {
-  fill: var(--text-faint);
-  font-family: var(--font-code);
-  font-size: 9px;
-  letter-spacing: 0.1em;
-}
-
-.map-node text:first-of-type {
-  fill: var(--text);
-  font-weight: 700;
-}
-
-.map-node--core rect {
-  fill: var(--text);
-  stroke: var(--accent);
-}
-
-.map-node--core circle {
-  fill: var(--accent);
-}
-
-.map-node--core text {
-  fill: var(--bg);
-  font-size: 11px;
-}
-
-.map-status circle {
-  fill: var(--accent);
-}
-
-@keyframes route {
-  to { stroke-dashoffset: 0; }
-}
-
 /* About */
 .about-grid {
   display: grid;
@@ -1460,11 +1368,6 @@ button {
     max-width: 45rem;
   }
 
-  .system-map {
-    width: min(100%, 35rem);
-    margin-inline: auto;
-  }
-
   .projects-grid {
     grid-template-columns: 1fr;
   }
@@ -1518,10 +1421,6 @@ button {
   .hero-actions .button,
   .contact-actions .button {
     flex: 1 1 100%;
-  }
-
-  .system-map svg {
-    min-height: 20rem;
   }
 
   .display-title {
