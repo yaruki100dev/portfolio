@@ -188,12 +188,6 @@ export const en = {
       },
     },
   },
-  education: {
-    section: "Education",
-    type: "Formal education",
-    qualification: "Web Application Development",
-    field: "Advanced Vocational Training · DAW",
-  },
   contact: {
     section: "Contact",
     titleTop: "Let’s talk about",

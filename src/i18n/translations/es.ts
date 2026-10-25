@@ -190,12 +190,6 @@ export const es = {
       },
     },
   },
-  education: {
-    section: "Formación",
-    type: "Formación reglada",
-    qualification: "Desarrollo de Aplicaciones Web",
-    field: "Formación Profesional · DAW",
-  },
   contact: {
     section: "Contacto",
     titleTop: "¿Hablamos de",

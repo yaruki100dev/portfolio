@@ -883,52 +883,6 @@ button {
   font-weight: 600;
 }
 
-/* Education */
-.education-card {
-  display: flex;
-  max-width: 52rem;
-  align-items: center;
-  gap: 2rem;
-  padding: clamp(1.5rem, 4vw, 3rem);
-  background: var(--bg-elevated);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-}
-
-.education-mark {
-  display: grid;
-  flex: 0 0 auto;
-  width: 5rem;
-  height: 5rem;
-  place-items: center;
-  background: var(--accent-soft);
-  color: var(--accent-text);
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  font-family: var(--font-code);
-  font-size: 1.05rem;
-}
-
-.education-card p {
-  margin: 0 0 0.25rem;
-  color: var(--accent-text);
-  font-family: var(--font-code);
-  font-size: 0.68rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
-
-.education-card h2 {
-  margin: 0;
-  font-size: clamp(1.45rem, 3vw, 2.4rem);
-  letter-spacing: -0.035em;
-}
-
-.education-card span {
-  color: var(--text-soft);
-  font-size: 0.87rem;
-}
-
 /* Contact and footer */
 .contact-section {
   padding-block: clamp(6rem, 14vw, 11rem);
@@ -1440,17 +1394,6 @@ button {
 
   .project-index {
     font-size: 5rem;
-  }
-
-  .education-card {
-    align-items: start;
-    gap: 1.1rem;
-  }
-
-  .education-mark {
-    width: 3.2rem;
-    height: 3.2rem;
-    font-size: 0.78rem;
   }
 
   .contact-inner h2 {
