@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
     <div class="footer-socials">
       {siteConfig.social.map((social) => (
         <a href={social.href} target="_blank" rel="noopener noreferrer" aria-label={formatMessage(t.common.socialProfile, { network: social.label })}>
-          <Icon name={social.icon} size={18} /><span>{social.label}</span>
+          <Icon name={social.icon} size={18} /><span class="footer-socials__label">{social.label}</span>
         </a>
       ))}
     </div>

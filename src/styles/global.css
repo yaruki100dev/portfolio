@@ -1400,7 +1400,7 @@ button {
     font-size: clamp(3rem, 15vw, 5rem);
   }
 
-  .footer-socials span {
+  .footer-socials__label {
     display: none;
   }
 
