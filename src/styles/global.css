@@ -35,16 +35,6 @@
   --header: rgb(244 246 248 / 0.88);
   --selection: #b8e8f9;
   --focus-ring: var(--accent-bright);
-  --contrast-bg: #10161e;
-  --contrast-surface: #1a2530;
-  --contrast-text: #f4f6f8;
-  --contrast-text-soft: #c3cbd3;
-  --contrast-text-faint: #9daab6;
-  --contrast-accent-text: #a8e4ff;
-  --contrast-accent-fill: #7dd3fc;
-  --contrast-accent-fill-hover: #a8e4ff;
-  --contrast-border: rgb(244 246 248 / 0.46);
-  --contrast-focus-ring: #7dd3fc;
   --font-body: var(--font-sans);
   --font-code: var(--font-mono);
   --max-width: 1180px;
@@ -72,16 +62,6 @@ html[data-theme="dark"] {
   --header: rgb(13 17 23 / 0.85);
   --selection: #164e63;
   --focus-ring: var(--accent);
-  --contrast-bg: #f1f5f7;
-  --contrast-surface: #e1e7eb;
-  --contrast-text: #0d1117;
-  --contrast-text-soft: #465361;
-  --contrast-text-faint: #596675;
-  --contrast-accent-text: #036991;
-  --contrast-accent-fill: #0b89ba;
-  --contrast-accent-fill-hover: #168fbe;
-  --contrast-border: rgb(13 17 23 / 0.46);
-  --contrast-focus-ring: #036991;
   color-scheme: dark;
 }
 
@@ -952,10 +932,8 @@ button {
 /* Contact and footer */
 .contact-section {
   padding-block: clamp(6rem, 14vw, 11rem);
-  background: var(--contrast-bg);
-  color: var(--contrast-text);
-  --accent-text: var(--contrast-accent-text);
-  --focus-ring: var(--contrast-focus-ring);
+  background: var(--surface);
+  color: var(--text);
 }
 
 .contact-inner h2 {
@@ -968,55 +946,53 @@ button {
 }
 
 .contact-inner h2 span {
-  color: var(--contrast-text-faint);
+  color: var(--text-faint);
 }
 
 .contact-copy {
   max-width: 38rem;
   margin: 2rem 0 0;
-  color: var(--contrast-text-soft);
+  color: var(--text-soft);
   font-size: 1.05rem;
 }
 
 .contact-section .button--primary {
-  background: var(--contrast-accent-fill);
+  background: var(--accent-fill);
   color: var(--accent-on-fill);
-  border-color: var(--contrast-accent-fill);
+  border-color: var(--accent-fill);
 }
 
-.contact-section .button--primary:hover,
+.contact-section .button--primary:hover {
+  background: var(--accent-fill-hover);
+  color: var(--accent-on-fill);
+  border-color: var(--accent-fill-hover);
+}
+
 .contact-section .button--primary:active {
-  background: var(--contrast-accent-fill-hover);
-  color: var(--accent-on-fill);
-  border-color: var(--contrast-accent-fill-hover);
+  background: var(--accent-fill);
+  border-color: var(--accent-fill);
 }
 
-.contact-section .button--secondary {
-  color: var(--contrast-text);
-  border-color: var(--contrast-border);
+.contact-section .button--secondary:hover {
+  background: var(--bg-elevated);
 }
 
-.contact-section .button--secondary:hover,
 .contact-section .button--secondary:active {
-  background: var(--contrast-surface);
-  color: var(--contrast-text);
-  border-color: var(--contrast-text-faint);
+  background: var(--surface-strong);
 }
 
 .contact-section .button:disabled,
 .contact-section .button[aria-disabled="true"] {
-  background: var(--contrast-surface);
-  color: var(--contrast-text-faint);
-  border-color: var(--contrast-border);
+  background: var(--surface-strong);
+  color: var(--text-faint);
+  border-color: var(--border-strong);
 }
 
 .site-footer {
   padding-block: 1.5rem;
-  background: var(--contrast-bg);
-  color: var(--contrast-text);
-  border-top: 1px solid var(--contrast-border);
-  --accent-text: var(--contrast-accent-text);
-  --focus-ring: var(--contrast-focus-ring);
+  background: var(--surface);
+  color: var(--text);
+  border-top: 1px solid var(--border);
 }
 
 .footer-inner {
@@ -1028,7 +1004,7 @@ button {
 
 .footer-inner p {
   margin: 0;
-  color: var(--contrast-text-faint);
+  color: var(--text-faint);
   font-family: var(--font-code);
   font-size: 0.65rem;
 }
@@ -1047,7 +1023,7 @@ button {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: var(--contrast-text-soft);
+  color: var(--text-soft);
   font-size: 0.72rem;
 }
 
