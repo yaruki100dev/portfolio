@@ -1087,6 +1087,10 @@ button {
   color: var(--accent-text);
 }
 
+.case-content {
+  container-type: inline-size;
+}
+
 .case-content section {
   margin-bottom: clamp(5rem, 10vw, 8rem);
   scroll-margin-top: 7rem;
@@ -1106,20 +1110,22 @@ button {
 
 .architecture-flow {
   display: grid;
-  grid-template-columns: 1fr 2rem 1fr 2rem 1fr;
-  align-items: center;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
   margin-block: 2.5rem;
   padding: 1.5rem;
+  list-style: none;
   background: var(--bg-elevated);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
 }
 
-.architecture-flow div {
+.architecture-flow li {
+  position: relative;
   display: grid;
   min-height: 8rem;
   align-content: center;
-  padding: 1rem;
+  padding: 0.75rem;
   background: var(--surface);
   border-radius: var(--radius-sm);
   text-align: center;
@@ -1134,6 +1140,7 @@ button {
 
 .architecture-flow strong {
   margin-top: 0.2rem;
+  font-size: 0.85rem;
 }
 
 .architecture-flow small {
@@ -1141,9 +1148,27 @@ button {
   font-size: 0.67rem;
 }
 
-.architecture-flow i {
-  height: 1px;
+.architecture-flow li + li::before {
+  position: absolute;
+  top: -1.5rem;
+  left: 50%;
+  width: 1px;
+  height: 1.5rem;
   background: var(--accent);
+  content: "";
+}
+
+@container (min-width: 40rem) {
+  .architecture-flow {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .architecture-flow li + li::before {
+    top: 50%;
+    left: -1.5rem;
+    width: 1.5rem;
+    height: 1px;
+  }
 }
 
 .decision-grid {
@@ -1408,16 +1433,6 @@ button {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 1rem;
-  }
-
-  .architecture-flow {
-    grid-template-columns: 1fr;
-  }
-
-  .architecture-flow i {
-    width: 1px;
-    height: 1.5rem;
-    margin-inline: auto;
   }
 
   .decision-grid {

@@ -51,14 +51,11 @@ const route = "/projects/cabeencasa/";
         <section id="architecture">
           <p class="section-kicker">{t.caseStudy.architecture.kicker}</p>
           <h2>{t.caseStudy.architecture.title}</h2>
-          <div class="architecture-flow" aria-label={t.caseStudy.architecture.flowLabel}>
+          <ol class="architecture-flow" role="list" aria-label={t.caseStudy.architecture.flowLabel}>
             {t.caseStudy.architecture.flow.map((item, index) => (
-              <>
-                {index > 0 && <i aria-hidden="true"></i>}
-                <div><span>0{index + 1}</span><strong>{item.title}</strong><small>{item.detail}</small></div>
-              </>
+              <li><span aria-hidden="true">0{index + 1}</span><strong>{item.title}</strong><small>{item.detail}</small></li>
             ))}
-          </div>
+          </ol>
           <p>{t.caseStudy.architecture.copy}</p>
         </section>
 

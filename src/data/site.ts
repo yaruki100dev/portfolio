@@ -40,7 +40,7 @@ export const projectDefinitions: ProjectDefinition[] = [
     slug: "cabeencasa",
     name: "CabeEnCasa",
     accent: "cyan",
-    technologies: ["astro", "cloudflarePages", "ssg", "technicalSeo", "git"],
+    technologies: ["astro", "digitalOceanVps", "nginx", "githubActions", "ssg", "technicalSeo"],
     links: [
       { label: "visitWebsite", href: "https://cabeencasa.es/", kind: "external" },
       { label: "technicalCase", path: "/projects/cabeencasa/", kind: "internal" },
